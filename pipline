@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Disk Usage Info') {
+            steps {
+                echo 'Получение информации о дисках...'
+                sh '''
+                    echo "=== Disk Usage (df -h) ==="
+                    df -h
+                '''
+            }
+        }
+
+        stage('Top Memory-Consuming Process') {
+            steps {
+                echo 'Определение процесса с наибольшим потреблением памяти...'
+                sh '''
+                    echo "=== Top Memory Process ==="
+                    ps -eo pid,comm,%mem --sort=-%mem | head -n 2
+                '''
+            }
+        }
+    }
+}
